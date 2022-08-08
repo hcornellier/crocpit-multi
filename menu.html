@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meat charset="utf-8"></meat>
+    <title>Lobby</title>
+    <style>
+        .center-contents {
+            font-family :'Courier New';
+            text-align: center;
+        }
+        .username_input {
+            padding-bottom: 15px;
+        }
+        .credit {
+            margin: auto 0;
+        }
+        #logo {
+            padding-top : 200px;
+        }
+        h1 {
+            font-size: 100px;
+            padding-top: 50px;
+            padding-bottom: 50;
+        }
+    </style>
+</head>
+</html>
+<body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io('/menu');
+        function join_public() {
+            let username = document.getElementById("username").value;
+            if(username == null || username == "") {
+                alert("Enter your username");
+                return;
+            }
+
+            socket.emit('join_public', username)
+            socket.on('public_validation', (validate, message) => {
+                if (validate == 1) {
+                    window.location.href = 'public/' + username;
+                } else {
+                    alert(message);
+                    return;
+                }
+            });
+        }
+        function create_private() {
+            let username = document.getElementById("username").value;
+            if (username == null || username == "") {
+                alert("Enter your username")
+                return;
+            }
+
+            let room_code = window.prompt("Enter the room code to create", "");
+            if(room_code == null || room_code == "") {
+                alert("Room code is empty");
+                return;
+            }
+            if(room_code === "public") {
+                alert("You cannot use that name as room code");
+                return;
+            }
+
+            socket.emit('create_private', username, room_code)
+            socket.on('create_validation', (validate, message) => {
+                if (validate == 1) {
+                    window.location.href = 'private/' + room_code + '/' + username;
+                } else {
+                    alert(message);
+                    return;
+                }
+            });
+        }
+
+        function join_private() {
+            let username = document.getElementById("username").value;
+            if (username == null || username == "") {
+                alert("Enter your username")
+                return;
+            }
+
+            let room_code = window.prompt("Enter the room code to join", "");
+            if(room_code == null || room_code == "") {
+                alert("Room code is empty");
+                return;
+            }
+
+            if(room_code === "public") {
+                alert("You cannot use that name as room code");
+                return;
+            }
+
+            socket.emit('join_private', username ,room_code);
+            socket.on('join_validation', (validate, message) => {
+                if (validate == true) {
+                    window.location.href = 'private/' + room_code + '/' + username;
+                } else {
+                    alert(message);
+                    return;
+                }
+            })
+        }
+
+        function mOver(obj) {
+            obj.style.fontSize = "25px";
+            obj.innerHTML =  "";
+            document.getElementById("logo").src = "https://teenlife.s3.amazonaws.com/media/uploads/listings/n5XLmrKJpG00.png";
+            document.getElementById("logo").width = "120";
+            document.getElementById("logo").height = "65";
+        }
+        function mOut(obj) {
+            obj.style.fontSize = "30px"
+            obj.innerHTML = "<u><br/>Credit<u>";
+            document.getElementById("logo").src = "";
+            document.getElementById("logo").width = "0";
+            document.getElementById("logo").height = "0";
+        }
+
+    </script>
+
+    <div class="center-contents">
+        <h1>Croc Pit</h1>
+        <div class="username_input">
+            <input class="inputbox" id="username" name="username" type="text" placeholder="username">
+        </div>
+        <button onclick="join_public();">Join Public Game</button>
+        <button onclick="create_private();">Create Private Game</button>
+        <button onclick="join_private();">Join Private Game</button>
+        <img src="" id="logo">
+    </div>
+</body>
