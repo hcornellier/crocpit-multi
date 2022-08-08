@@ -128,15 +128,36 @@
             canvas.insertAdjacentHTML('afterend', divHTML)
 
             const uparrow    = document.getElementById('uparrow')
-            const leftarrow  = document.getElementById('uparrow')
-            const rightarrow = document.getElementById('uparrow')
-            const downarrow  = document.getElementById('uparrow')
+            const leftarrow  = document.getElementById('leftarrow')
+            const rightarrow = document.getElementById('rightarrow')
+            const downarrow  = document.getElementById('downarrow')
 
             uparrow.addEventListener("touchstart", function() {
                 socket.emit('key_control_event', 'UP')
             })
             uparrow.addEventListener("touchend", function() {
                 socket.emit('key_release_control_event', 'UP')
+            })
+
+            leftarrow.addEventListener("touchstart", function() {
+                socket.emit('key_control_event', 'LEFT')
+            })
+            leftarrow.addEventListener("touchend", function() {
+                socket.emit('key_release_control_event', 'LEFT')
+            })
+
+            rightarrow.addEventListener("touchstart", function() {
+                socket.emit('key_control_event', 'RIGHT')
+            })
+            rightarrow.addEventListener("touchend", function() {
+                socket.emit('key_release_control_event', 'RIGHT')
+            })
+
+            downarrow.addEventListener("touchstart", function() {
+                socket.emit('key_control_event', 'DOWN')
+            })
+            downarrow.addEventListener("touchend", function() {
+                socket.emit('key_release_control_event', 'DOWN')
             })
         }
 
