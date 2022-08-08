@@ -138,27 +138,6 @@
             uparrow.addEventListener("touchend", function() {
                 socket.emit('key_release_control_event', 'UP')
             })
-
-            leftarrow.addEventListener("touchstart", function() {
-                socket.emit('key_control_event', 'LEFT')
-            })
-            leftarrow.addEventListener("touchend", function() {
-                socket.emit('key_release_control_event', 'LEFT')
-            })
-
-            rightarrow.addEventListener("touchstart", function() {
-                socket.emit('key_control_event', 'RIGHT')
-            })
-            rightarrow.addEventListener("touchend", function() {
-                socket.emit('key_release_control_event', 'RIGHT')
-            })
-
-            downarrow.addEventListener("touchstart", function() {
-                socket.emit('key_control_event', 'DOWN')
-            })
-            downarrow.addEventListener("touchend", function() {
-                socket.emit('key_release_control_event', 'DOWN')
-            })
         }
 
         let divstuff = '<div id="usermessages" style="width: 700px; text-align: left"></div>'
