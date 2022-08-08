@@ -127,10 +127,10 @@
         const rightarrow = document.getElementById('uparrow')
         const downarrow  = document.getElementById('uparrow')
 
-        uparrow.addEventListener("mouseenter", function() {
+        uparrow.addEventListener("touchstart", function() {
             socket.emit('key_control_event', 'UP')
         })
-        uparrow.addEventListener("mouseleave", function() {
+        uparrow.addEventListener("touchend", function() {
             socket.emit('key_release_control_event', 'UP')
         })
 
