@@ -107,8 +107,7 @@ game_io.on('connection', (socket) => {
         if (room_manager.num_rooms > 0) {
             let user = room_manager.find_user(socket.id);
             if (user != null) {
-                console.log(keycode)
-                if(keycode !== 32) {
+                if (keycode !== 32) {
                     room_manager.find_user(socket.id).keypress[keycode] = true;
                 }
             }
@@ -122,18 +121,55 @@ game_io.on('connection', (socket) => {
                 room_manager.find_user(socket.id).keypress[keycode] = false;
             }
         }
-    });
+    })
+
+    socket.on('key_control_event', (key) => {
+        let keycode = 1
+        if (key === 'UP')
+            keycode = 38
+        if (key === 'LEFT')
+            keycode = 37
+        if (key === 'RIGHT')
+            keycode = 39
+        if (key === 'DOWN')
+            keycode = 40
+        if (room_manager.num_rooms > 0) {
+            let user = room_manager.find_user(socket.id);
+            if (user != null) {
+                if (keycode !== 32) {
+                    room_manager.find_user(socket.id).keypress[keycode] = true;
+                }
+            }
+        }
+    })
+
+    socket.on('key_release_control_event', (key) => {
+        let keycode = 1
+        if (key === 'UP')
+            keycode = 38
+        if (key === 'LEFT')
+            keycode = 37
+        if (key === 'RIGHT')
+            keycode = 39
+        if (key === 'DOWN')
+            keycode = 40
+        if (room_manager.num_rooms > 0) {
+            let user = room_manager.find_user(socket.id);
+            if (user != null) {
+                room_manager.find_user(socket.id).keypress[keycode] = false;
+            }
+        }
+    })
 
     socket.on('space_event', (space) => {
         if (room_manager.num_rooms > 0) {
             let user = room_manager.find_user(socket.id);
             const SPACE = 32;
             if (user != null) {
-                if(space == 1) {
+                if (space === 1)
                     room_manager.find_user(socket.id).keypress[SPACE] = true;
-                } else if(space == 0) {
+                else if (space === 0)
                     room_manager.find_user(socket.id).keypress[SPACE] = false;
-                }
             }
         }
     })

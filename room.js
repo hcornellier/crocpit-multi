@@ -34,43 +34,43 @@ module.exports = class room {
     }
 
     update() {
-        let status = {};
-        let ids = [];
-        // Determine player to start.
+        let status = {}
+        let ids = []
 
         this.players.forEach(player => {
+
             if (player.keypress[UP] && player.to_trans.y >= 0)
-                player.to_trans.y -= 7;
+                player.to_trans.y -= 7
 
             if (player.keypress[DOWN] && player_height + player.to_trans.y < config.screen_height)
-                player.to_trans.y += 7;
+                player.to_trans.y += 7
 
             if (player.keypress[LEFT] && player.to_trans.x >= 0)
-                player.to_trans.x -= 7;
+                player.to_trans.x -= 7
 
             if (player.keypress[RIGHT] && player.to_trans.x < config.screen_height)
-                player.to_trans.x += 7;
+                player.to_trans.x += 7
 
-            ids.push(player.id);
-            status[player.id] = player.to_trans;
-        });
+            ids.push(player.id)
+            status[player.id] = player.to_trans
+        })
 
-        if((this.player1.points == config.end_point
-        || this.player2.points == config.end_point)
-        && this.curr_state != "ST_GAMEOVER"
-        && this.game_done == false) {
-            let winner = this.curr_state === "ST_RIGHTBALL" ? this.player1.username : this.player2.username;
-            let winning_text = winner + ' Won!';
-            this.curr_state = "ST_GAMEOVER";
-            this.io.to(this.player1.id).emit('game_over', winning_text);
-            this.io.to(this.player2.id).emit('game_over', winning_text);
-            this.game_done = true;
+        if ((this.player1.points === config.end_point
+        || this.player2.points === config.end_point)
+        && this.curr_state !== "ST_GAMEOVER"
+        && this.game_done === false) {
+            let winner = this.curr_state === "ST_RIGHTBALL" ? this.player1.username : this.player2.username
+            let winning_text = winner + ' Won!'
+            this.curr_state = "ST_GAMEOVER"
+            this.io.to(this.player1.id).emit('game_over', winning_text)
+            this.io.to(this.player2.id).emit('game_over', winning_text)
+            this.game_done = true
         }
 
         if(this.game_done == false) {
-            this.curr_state = this.ball.update(this.player1, this.player2, this.curr_state, this.io);
-            this.io.to(this.player1.id).emit('update', ids, status, this.ball.to_trans);
-            this.io.to(this.player2.id).emit('update', ids, status, this.ball.to_trans);
+            this.curr_state = this.ball.update(this.player1, this.player2, this.curr_state, this.io)
+            this.io.to(this.player1.id).emit('update', ids, status, this.ball.to_trans)
+            this.io.to(this.player2.id).emit('update', ids, status, this.ball.to_trans)
         }
     }
 
