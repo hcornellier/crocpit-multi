@@ -166,9 +166,6 @@
             })
         }
 
-        let divstuff = '<div id="usermessages" style="width: 700px; text-align: left"></div>'
-        canvas.insertAdjacentHTML('afterend', divstuff)
-
         let divHTML = '<input id="userinput" type="text" style="margin-top: 20px; width: 400px; height: 20px;"></input>' +
                       '<button id="sendbtn">Send</button>'
         canvas.insertAdjacentHTML('afterend', divHTML)
@@ -177,6 +174,9 @@
             document.getElementById('userinput').value = ""
             socket.emit('message', msg)
         })
+
+        let divstuff = '<div id="usermessages" style="width: 678px; max-height: 200px; text-align: left; background: #fbdbbf; overflow-y: scroll; padding-bottom: 10px; padding-left: 10px; line-height: 22px; border: 1px solid black;"></div>'
+        canvas.insertAdjacentHTML('afterend', divstuff)
 
         var loop = function() {
             canvas.width = width;
@@ -204,6 +204,7 @@
         const usermessages = document.getElementById('usermessages')
         let innerText = usermessages.innerText
         usermessages.innerText = innerText + "\n" + msg
+        usermessages.scrollTop = usermessages.scrollHeight;
     })
 
     socket.on('usernames', (usernames) => {
