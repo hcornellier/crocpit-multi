@@ -53,6 +53,13 @@ module.exports = class room {
 
             ids.push(player.id)
             status[player.id] = player.to_trans
+
+            if (player.msg !== "") {
+                let msg_with_username = player.username + ": " + player.msg
+                this.io.to(this.player1.id).emit('user_message', msg_with_username)
+                this.io.to(this.player2.id).emit('user_message', msg_with_username)
+                player.msg = ""
+            }
         })
 
         if ((this.player1.points === config.end_point

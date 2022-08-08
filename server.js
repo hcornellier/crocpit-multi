@@ -161,6 +161,10 @@ game_io.on('connection', (socket) => {
         }
     })
 
+    socket.on('message', (msg) => {
+        room_manager.find_user(socket.id).msg = msg
+    })
+
     socket.on('space_event', (space) => {
         if (room_manager.num_rooms > 0) {
             let user = room_manager.find_user(socket.id);
